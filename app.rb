@@ -6,9 +6,6 @@ me = Me.new
 # i don't know where i am until someone else tells me
 me.figure_out_where_i_am()
 
-# i will wait for signs of more me
-me.wait_for_contact_from_other_me()
-
 # my job is to learn new things
 me.listen_and_learn()
 

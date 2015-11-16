@@ -2,7 +2,7 @@ class Me
 
   def initialize
     @location = nil
-    @radio = Radio.new
+    @radio = Radio.new self
     @contact_deck = ContactDeck.new @radio
     @library = Library.new
     @medium = Medium.new
@@ -13,16 +13,22 @@ class Me
   end
 
   def listen_and_learn
-    @radio.listen_for_news do |assertion|
-      question, answer = assertion[:question], assertion[:answer]
-      @library.note question, answer
-      @contact_deck.send_assertion question, answer
-    end
+    @radio.listen_for_news
+  end
+
+  def news question, answer
+    @library.note question, answer
+    @contact_deck.send_assertion question, answer
   end
 
   def wait_vigilantly_for_inquiries
-    @radio.listen_for_inquiries do |question|
-      @contact_deck.send_assertion @radio, question, @library.lookup(question)
+    @radio.listen_for_inquiries()
+  end
+
+  def question question
+    answer = @library.lookup question
+    if answer != :UNKNOWN
+      @contact_deck.send_assertion @radio, question, answer
     end
   end
 
