@@ -13,6 +13,7 @@ class HttpInterface
   def post msg, route
     puts "http interface setting up route #{route} notifying to #{msg}"
     @app.post(route) do
+      content_type :json
       settings.receiver.send msg, json_data
     end
   end

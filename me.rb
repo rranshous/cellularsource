@@ -13,25 +13,34 @@ class Me
   end
 
   def exist!
-    Thread.new do
-      puts "sleeping clone"
-      sleep(30)
-      puts "done sleeping, staring clone"
-      start_another_me
+    if ENV['SPAWN'] == 'true'
+      Thread.new do
+        puts "sleeping before clone: 30s"
+        sleep(30)
+        puts "done sleeping, staring clone"
+        start_another_me
+      end
     end
     @radio.listen!
   end
 
   def news question, answer
+    puts "i've just heard some news: #{question} => #{answer}"
     @library.note question, answer
+    puts "i'm telling everybody"
     @contact_deck.send_assertion question, answer
+    {}.to_json
   end
 
   def question question
+    puts "i received a question: #{question}"
     answer = @library.lookup question
     if answer != :UNKNOWN
-      @contact_deck.send_assertion @radio, question, answer
+      puts "i found the answer: #{answer}"
+    else
+      puts "i don't know the answer"
     end
+    { question: question, answer: answer }.to_json
   end
 
   private

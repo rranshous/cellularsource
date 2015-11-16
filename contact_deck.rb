@@ -14,6 +14,7 @@ class ContactDeck
     @contacts.each do |location|
       puts "deck sending to: #{location}"
       @radio.send_assertion location, question, answer
+      puts "deck done sending to: #{location}"
     end
   end
 
