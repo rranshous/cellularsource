@@ -8,7 +8,6 @@ class Radio
   def initialize user
     @user = user
     puts "radio has user: #{@user}"
-    @my_location = nil
     @http_interface = HttpInterface.new self
     @lock = Mutex.new
     setup_listeners
@@ -25,11 +24,6 @@ class Radio
     @http_interface.run!
   end
 
-  def location data
-    puts "radio got location: #{data['location']}"
-    @lock.synchronize { @my_location = data['location'] }
-  end
-
   def news data
     question, answer = data['question'], data['answer']
     puts "radio got news: #{question} => #{answer}"
@@ -44,14 +38,8 @@ class Radio
   private
 
   def setup_listeners
-    listen_for_location
     listen_for_news
     listen_for_inquiries
-  end
-
-  def listen_for_location
-    puts "radio setting up listener for location"
-    @http_interface.post :location, '/your_location'
   end
 
   def listen_for_news
