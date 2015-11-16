@@ -1,28 +1,25 @@
+require_relative 'radio'
+require_relative 'contact_deck'
+require_relative 'library'
+require_relative 'medium'
+
 class Me
 
   def initialize
-    @location = nil
     @radio = Radio.new self
     @contact_deck = ContactDeck.new @radio
     @library = Library.new
     @medium = Medium.new
   end
 
-  def figure_out_where_i_am
-    @radio.listen_for_location()
-  end
-
-  def listen_and_learn
-    @radio.listen_for_news
+  def exist!
+    start_another_me
+    @radio.listen!
   end
 
   def news question, answer
     @library.note question, answer
     @contact_deck.send_assertion question, answer
-  end
-
-  def wait_vigilantly_for_inquiries
-    @radio.listen_for_inquiries()
   end
 
   def question question
@@ -32,7 +29,11 @@ class Me
     end
   end
 
+  private
+
   def start_another_me
-    @contact_deck.add @medium.clone_me
+    clone_location = @medium.clone_me
+    raise "could not start clone" if clone_location == false
+    @contact_deck.add clone_location
   end
 end

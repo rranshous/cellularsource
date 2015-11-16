@@ -1,16 +1,23 @@
+require 'thread'
 
 class Library
 
   def initialize
     @knowledge = Hash.new(:UNKNOWN)
+    @lock = Mutex.new
   end
 
   def note question, answer
-    @knowledge[question] = answer
+    puts "library noting: #{question} => #{answer}"
+    @lock.synchronize { @knowledge[question] = answer }
   end
 
   def lookup question
-    @knowledge[question]
+    puts "library lookup up: #{question}"
+    answer = nil
+    @lock.synchronize { answer = @knowledge[question] }
+    puts "library answered [#{question}]: #{answer}"
+    return answer
   end
 
 end
