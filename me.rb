@@ -13,7 +13,12 @@ class Me
   end
 
   def exist!
-    start_another_me
+    Thread.new do
+      puts "sleeping clone"
+      sleep(30)
+      puts "done sleeping, staring clone"
+      start_another_me
+    end
     @radio.listen!
   end
 

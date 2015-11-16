@@ -1,9 +1,12 @@
+require 'thread'
+
 class ContactDeck
 
   def initialize radio
     @radio = radio
     puts "deck using radio: #{radio}"
     @contacts = []
+    @lock = Mutex.new
   end
 
   def send_assertion question, answer
@@ -16,7 +19,7 @@ class ContactDeck
 
   def add location
     puts "deck adding #{location}"
-    @contacts << location
+    @lock.synchronize { @contacts << location }
   end
 
 end
