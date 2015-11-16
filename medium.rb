@@ -26,9 +26,11 @@ class Medium
 
   def clone_url clone_id
     details = @cycle_client.status clone_id
-    host = details['host']
-    port = details['ports']['80']
-    "http://#{host}:#{port}"
+    ip = details['private_ip']
+    port = ENV['PORT']
+    url = "http://#{ip}:#{port}"
+    puts "medium clone url: #{url}"
+    return url
   end
 
   def our_image

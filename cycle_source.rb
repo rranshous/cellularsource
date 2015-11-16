@@ -16,7 +16,9 @@ class CycleSource
     def status container_id
       puts "cycle status: #{container_id}"
       url = URI.join base_url, '/status/', container_id
-      HTTParty.get(url).parsed_response
+      status = HTTParty.get(url).parsed_response
+      puts "cycle status [#{container_id}]: #{status}"
+      return status
     end
 
     private
