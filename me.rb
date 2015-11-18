@@ -1,7 +1,8 @@
 require_relative 'radio'
 require_relative 'contact_deck'
 require_relative 'library'
-require_relative 'medium'
+require_relative 'cloner'
+require_relative 'remembererer'
 
 class Me
 
@@ -9,18 +10,11 @@ class Me
     @radio = Radio.new self
     @contact_deck = ContactDeck.new @radio
     @library = Library.new
-    @medium = Medium.new
+    @cloner = Cloner.new @contact_deck
   end
 
   def exist!
-    if ENV['SPAWN'] == 'true'
-      Thread.new do
-        puts "sleeping before clone: 30s"
-        sleep(30)
-        puts "done sleeping, staring clone"
-        start_another_me
-      end
-    end
+    remind_self_to_spawn_clone
     @radio.listen!
   end
 
@@ -35,19 +29,11 @@ class Me
   def question question
     puts "i received a question: #{question}"
     answer = @library.lookup question
-    if answer != :UNKNOWN
-      puts "i found the answer: #{answer}"
-    else
-      puts "i don't know the answer"
-    end
     { question: question, answer: answer }.to_json
   end
 
-  private
-
-  def start_another_me
-    clone_location = @medium.clone_me
-    raise "could not start clone" if clone_location == false
-    @contact_deck.add clone_location
+  def remind_self_to_spawn_clone
+    puts "me setting reminder to spawn"
+    Remembererer.remind_me 10, @cloner, :start_clone
   end
 end

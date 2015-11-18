@@ -8,35 +8,28 @@ class Medium
     @cycle_client = CycleSource::Client.new
   end
 
-  def clone_me
-    puts "medium cloning self"
-    clone_id = start_clone
-    return clone_url clone_id
+  def spawn image
+    puts "medium spawning #{image}"
+    new_spawn_id = start_new_spawn image
+    return new_spawn_url new_spawn_id
   end
 
   private
 
-  def start_clone
-    puts "medium starting clone"
-    clone_id = @cycle_client.start our_image
-    return false if clone_id == false
-    puts "medium started: #{clone_id}"
-    return clone_id
+  def start_new_spawn image
+    puts "medium starting new_spawn"
+    new_spawn_id = @cycle_client.start image
+    return false if new_spawn_id == false
+    puts "medium started: #{new_spawn_id}"
+    return new_spawn_id
   end
 
-  def clone_url clone_id
-    details = @cycle_client.status clone_id
+  def new_spawn_url new_spawn_id
+    details = @cycle_client.status new_spawn_id
     ip = details['private_ip']
     port = ENV['PORT']
     url = "http://#{ip}:#{port}"
-    puts "medium clone url: #{url}"
+    puts "medium new_spawn url: #{url}"
     return url
-  end
-
-  def our_image
-    image = ENV['DOCKER_IMAGE']
-    puts "medium image: #{image}"
-    raise "no image provided: DOCKER_IMAGE required" unless image
-    return image
   end
 end
