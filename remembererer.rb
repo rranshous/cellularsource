@@ -1,6 +1,6 @@
 require 'thread'
 
-class Remembererer
+module Remembererer
   def self.remind_me defer_for, obj, msg
     puts "reminder settings reminder for #{defer_for} seconds " +
          "from now :#{msg} => #{obj}"

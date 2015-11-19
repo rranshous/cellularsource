@@ -1,6 +1,7 @@
-
-def Object.and
-  yield self
+class Object
+  def and
+    yield self
+  end
 end
 
 def nil.and

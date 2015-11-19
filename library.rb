@@ -1,6 +1,8 @@
 require 'thread'
+require_relative 'method_locker'
 
 class Library
+  include MethodLocker
 
   def initialize
     @knowledge = Hash.new(:UNKNOWN)
@@ -9,13 +11,13 @@ class Library
 
   def note question, answer
     puts "library noting: #{question} => #{answer}"
-    @lock.synchronize { @knowledge[question] = answer }
+    with_lock { @knowledge[question] = answer }
   end
 
   def lookup question
     puts "library lookup up: #{question}"
     answer = nil
-    @lock.synchronize { answer = @knowledge[question] }
+    answer = with_lock { @knowledge[question] }
     puts "library answered [#{question}]: #{answer}"
     return answer
   end

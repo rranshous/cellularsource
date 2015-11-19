@@ -1,6 +1,8 @@
 require 'thread'
+require_relative 'method_locker'
 
 class ContactDeck
+  include MethodLocker
 
   def initialize radio
     @radio = radio
@@ -11,16 +13,17 @@ class ContactDeck
 
   def send_assertion question, answer
     puts "deck sending assertion: #{question} => #{answer}"
-    @contacts.each do |location|
-      puts "deck sending to: #{location}"
-      @radio.send_assertion location, question, answer
-      puts "deck done sending to: #{location}"
+    with_lock do
+      @contacts.each do |location|
+        puts "deck sending to: #{location}"
+        @radio.send_assertion location, question, answer
+        puts "deck done sending to: #{location}"
+      end
     end
   end
 
   def add location
     puts "deck adding #{location}"
-    @lock.synchronize { @contacts << location }
+    with_lock { @contacts << location }
   end
-
 end

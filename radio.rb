@@ -9,7 +9,6 @@ class Radio
     @user = user
     puts "radio has user: #{@user}"
     @http_interface = HttpInterface.new self
-    @lock = Mutex.new
     setup_listeners
   end
 
