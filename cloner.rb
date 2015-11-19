@@ -10,7 +10,7 @@ class Cloner
 
   def start_clone
     puts "cloner starting to clone"
-    Context.with('SPAWN') do
+    EnvContext.with('SPAWN') do
       puts "cloner starting clone"
       clone_location = @medium.spawn our_image
       raise "could not start clone" if clone_location == false
@@ -23,7 +23,7 @@ class Cloner
   private
 
   def our_image
-    Context.with('DOCKER_IMAGE') do |docker_image|
+    EnvContext.with('DOCKER_IMAGE') do |docker_image|
       puts "medium image: #{docker_image}"
       return docker_image
     end

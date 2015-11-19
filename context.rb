@@ -1,6 +1,6 @@
 require_relative 'smart_nil'
 
-module Context
+module EnvContext
   def self.with setting
     puts "context checking #{setting}"
     ENV[setting].and do

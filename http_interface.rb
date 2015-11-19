@@ -10,7 +10,7 @@ class HttpInterface
     @app.set :port, port
   end
 
-  def post msg, route
+  def register_post msg, route
     puts "http interface setting up route #{route} notifying to #{msg}"
     @app.post(route) do
       content_type :json

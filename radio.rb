@@ -43,11 +43,11 @@ class Radio
 
   def listen_for_news
     puts "radio setting up listener for news"
-    @http_interface.post :news, '/assert'
+    @http_interface.register_post :news, '/assert'
   end
 
   def listen_for_inquiries
     puts "radio setting up listener for questions"
-    @http_interface.post :question, '/question'
+    @http_interface.register_post :question, '/question'
   end
 end
