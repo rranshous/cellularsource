@@ -1,5 +1,5 @@
-require_relative 'medium'
-require_relative 'context'
+require 'medium'
+require 'env_context'
 
 class Cloner
 
