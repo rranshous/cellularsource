@@ -11,9 +11,11 @@ class Me
   end
 
   def exist!
+    puts "I am existing!"
     @learner.exist
     @survivor.exist
 
+    puts "I am starting radio"
     @radio.start!
   end
 end

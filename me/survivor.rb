@@ -10,16 +10,18 @@ class Me
     end
 
     def exist
+      puts "survivor existing"
       @radio.listen_for :news, self
       remember_to_spawn_clone
     end
 
-    def news
+    def news question, answer
+      puts "survivor got news"
       # TODO: stuff
     end
 
     def remember_to_spawn_clone
-      puts "me setting reminder to spawn"
+      puts "survivor setting reminder to spawn"
       Remembererer.remind_me 30, @cloner, :start_clone
     end
   end
