@@ -46,12 +46,22 @@ class Radio
     end
   end
 
+  def heartbeat data
+    puts "radio got heartbeat: #{data['source']}"
+    @listeners[:heartbeat].each do |listener_obj|
+      puts "radio sending question to #{listener_obj}"
+      listener_obj.send :heartbeat, data['source']
+    end
+  end
+
   private
 
   def setup_http_endpoints
-    puts "radio setting up listener for news"
+    puts "radio setting up http listener for news"
     @http_interface.register_post :news, '/assert'
-    puts "radio setting up listener for questions"
+    puts "radio setting up http listener for questions"
     @http_interface.register_post :question, '/question'
+    puts "radio setting up http listener for heartbeat"
+    @http_interface.register_post :heartbeat, '/heartbeat'
   end
 end
