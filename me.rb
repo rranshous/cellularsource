@@ -1,3 +1,5 @@
+$:.unshift File.dirname(__FILE__)
+
 require 'radio'
 require 'me/learner'
 require 'me/survivor'

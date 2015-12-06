@@ -10,8 +10,9 @@ class Medium
 
   def spawn image
     puts "medium spawning #{image}"
-    new_spawn_id = start_new_spawn image
-    return new_spawn_url new_spawn_id
+    new_spawn_id = start_new_spawn(image) and return new_spawn_url(new_spawn_id)
+    puts "medium not able to spawn"
+    return false
   end
 
   private

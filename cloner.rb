@@ -9,15 +9,14 @@ class Cloner
   end
 
   def start_clone
-    puts "cloner starting to clone"
-    EnvContext.with('SPAWN') do
-      puts "cloner starting clone"
-      clone_location = @medium.spawn our_image
-      raise "could not start clone" if clone_location == false
-      @contact_deck.add clone_location
-      return
+    puts "cloner starting clone"
+    our_image && clone_location = @medium.spawn(our_image) or begin
+      puts "cloner failed to spawn clone"
+      return false
     end
-    puts "cloner did not start clone"
+    puts "clone started"
+    @contact_deck.add clone_location
+    return true
   end
 
   private
@@ -27,6 +26,6 @@ class Cloner
       puts "medium image: #{docker_image}"
       return docker_image
     end
-    raise "no image provided: DOCKER_IMAGE required"
+    return false
   end
 end
