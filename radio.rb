@@ -19,7 +19,14 @@ class Radio
   def send_assertion location, question, answer
     data = { question: question, answer: answer}
     url = URI.join location, '/assert'
-    puts "radio HTTP POST to #{url}"
+    puts "radio [assertion] HTTP POST to #{url}"
+    HTTParty.post url, body: data.to_json
+  end
+
+  def send_heartbeat source
+    data = { source: source }
+    url = URI.join location, '/heartbeat'
+    puts "radio [heartbeat] HTTP POST to #{url}"
     HTTParty.post url, body: data.to_json
   end
 

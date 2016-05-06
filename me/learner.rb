@@ -1,12 +1,11 @@
 require 'library'
-require 'contact_deck'
 
 class Me
   class Learner
 
-    def initialize radio
+    def initialize radio, contact_deck
       @radio = radio
-      @contact_deck = ContactDeck.new @radio
+      @contact_deck = contact_deck
       @library = Library.new
     end
 

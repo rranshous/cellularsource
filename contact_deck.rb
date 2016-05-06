@@ -22,6 +22,17 @@ class ContactDeck
     end
   end
 
+  def send_heartbeat
+    puts "deck sending heartbeat"
+    with_lock do
+      @contacts.each do |location|
+        puts "deck sending to: #{location}"
+        @radio.send_heartbeat 'parent'
+        puts "deck done sending to: #{location}"
+      end
+    end
+  end
+
   def add location
     puts "deck adding #{location}"
     with_lock { @contacts << location }

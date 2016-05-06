@@ -9,5 +9,4 @@ describe Me::Survivor do
     expect(subject.send :heartbeat, 'parent').to be true
     expect(subject.send :heartbeat, 'other').to be false
   end
-
 end
