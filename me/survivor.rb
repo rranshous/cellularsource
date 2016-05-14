@@ -18,12 +18,14 @@ class Me
     def exist
       puts "survivor existing"
       @radio.listen_for :heartbeat, self
-      Remembererer.remind_me(5, self, :check_on_parent)
-      Remembererer.remind_me(5, self, :send_heartbeat)
+      set_check_on_parent_reminder
+      set_send_heartbeat_reminder
     end
 
     def send_heartbeat
       puts "survivor sending heartbeat"
+      @contact_deck.send_heartbeat
+      set_send_heartbeat_reminder
     end
 
     def heartbeat source
@@ -41,18 +43,17 @@ class Me
 
     private
 
-    def set_check_on_parent_reminder
-      puts "setting reminder"
-      Remembererer.remind_me(30, self, :check_on_parent) and return
+    def set_send_heartbeat_reminder time=5
+      Remembererer.remind_me(time, self, :send_heartbeat)
+    end
+
+    def set_check_on_parent_reminder time=30
+      Remembererer.remind_me(time, self, :check_on_parent)
     end
 
     def start_clone
       puts "survivor starting clone"
-      @clone_started = @cloner.start_clone or begin
-        puts "survivor failed to start clone, setting reminder"
-        Remembererer.remind_me(30, self, :check_on_parent)
-        return
-      end
+      @clone_started = @cloner.start_clone or return
       puts "survivor started clone"
     end
 

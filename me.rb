@@ -10,8 +10,8 @@ class Me
   def initialize
     @radio = Radio.new
     @contact_deck = ContactDeck.new @radio
-    @learner = Learner.new @radio
-    @survivor = Survivor.new @radio
+    @learner = Learner.new @radio, @contact_deck
+    @survivor = Survivor.new @radio, @contact_deck
   end
 
   def exist!

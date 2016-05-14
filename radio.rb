@@ -6,7 +6,6 @@ require_relative 'http_interface'
 class Radio
 
   def initialize
-    puts "radio has user: #{@user}"
     @http_interface = HttpInterface.new self
     @listeners = Hash.new([])
   end
